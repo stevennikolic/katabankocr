@@ -1,0 +1,80 @@
+<project name="kataBankOCR" default="distribute" basedir=".">
+    <description>
+        einfacher OCR-Scanner für Banken
+    </description>
+    <!-- globale Eigenschaften -->
+    <property name="src" location="src/main/java"/>
+    <property name="build" location="build"/>
+    <property name="dist" location="dist"/>
+    <property name="doc" location="doc"/>
+    <property name="test" location="test/java"/>
+    <property name="mainclass" value="Ocr"/>
+    <property name="classpath" value="src/main/resources"/>
+    <property name="junitjar" value="/Applications/IntelliJ IDEA 11 CE.app/lib/junit-4.10.jar"/>
+
+    <target name="init" description="Build-Verzeichnis erstellen und Zeitstempel setzen">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <tstamp/>
+        <mkdir dir="${build}"/>
+    </target>
+
+    <target name="build" depends="init" description="Quellen kompilieren">
+        <javac srcdir="${src}" destdir="${build}"/>
+    </target>
+
+    <target name="distribute" depends="build" description="generate the distribution">
+        <!-- Create the distribution directory -->
+        <mkdir dir="${dist}"/>
+
+        <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
+        <jar jarfile="${dist}/kataBankOCR-${DSTAMP}.jar" basedir="${build}">
+            <manifest>
+                <attribute name="Manifest-Version" value="1.0"/>
+                <attribute name="Class-Path" value="${classpath}"/>
+                <attribute name="Main-Class" value="${mainclass}"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="clean" description="bereinigen">
+        <delete dir="${build}" description="Build-Verzeichnis löschen"/>
+        <delete dir="${dist}" description="Distributions-Verzeichnis löschen"/>
+    </target>
+
+    <target name="cleandoc" description="Dokumentation bereinigen">
+        <delete dir="${doc}"/>
+    </target>
+
+    <target name="cleantestresults" description="Testergebnisse bereinigen">
+        <delete file="result.txt"/>
+        <delete file="result.xml"/>
+    </target>
+
+    <target name="clean-all" description="alles bereinigen" depends="clean,cleandoc,cleantestresults"/>
+
+    <target name="run" depends="distribute">
+        <copy file="${classpath}/accountnumbers.txt" tofile="${dist}/accountnumbers.txt"/>
+        <java jar="${dist}/kataBankOCR-${DSTAMP}.jar" fork="true"/>
+    </target>
+
+    <target name="rebuild" description="bereinigen und erneut erstellen" depends="clean,build"/>
+
+    <target name="doc" depends="init" description="Dokumentation erstellen">
+        <javadoc sourcepath="${src}" destdir="${doc}"/>
+    </target>
+
+    <target name="test">
+        <junit printsummary="yes" haltonfailure="yes" haltonerror="yes">
+            <classpath>
+                <pathelement location="${classpath}"/>
+                <pathelement location="${test}"/>
+                <pathelement path="${junitjar}"/>
+            </classpath>
+
+            <test name="kata.ocr.accountnumber.DecoderTest" haltonfailure="yes" outfile="result">
+                <formatter type="plain"/>
+                <formatter type="xml"/>
+            </test>
+        </junit>
+    </target>
+</project>
