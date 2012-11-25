@@ -19,7 +19,7 @@
     </target>
 
     <target name="build" depends="init" description="Quellen kompilieren">
-        <javac srcdir="${src}" destdir="${build}"/>
+        <javac srcdir="${src}" destdir="${build}" includeantruntime="false"/>
     </target>
 
     <target name="distribute" depends="build" description="generate the distribution">
