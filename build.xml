@@ -10,7 +10,7 @@
     <property name="test" location="test/java"/>
     <property name="mainclass" value="Ocr"/>
     <property name="classpath" value="src/main/resources"/>
-    <property name="junitjar" value="/Applications/IntelliJ IDEA 11 CE.app/lib/junit-4.10.jar"/>
+    <property name="junitjar" value="junit/junit4.11/junit-4.11.jar"/>
 
     <target name="init" description="Build-Verzeichnis erstellen und Zeitstempel setzen">
         <echo message="${ant.project.name}: ${ant.file}"/>
