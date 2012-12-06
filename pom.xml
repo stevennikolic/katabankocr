@@ -9,6 +9,25 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
+    <build>
+        <!-- For annotations and other Java5 stuff -->
+        <plugins>
+            <plugin>
+                <version>2.0.2</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
