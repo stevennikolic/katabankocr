@@ -6,4 +6,4 @@
 *.ear
 
 # Project Files #
-kata.bank.ocr.iml
+*.iml
